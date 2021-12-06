@@ -12,6 +12,7 @@
       </categories>
       <tags>
         <tag>CTF</tag>
+        <tag>Sec</tag>
       </tags>
   </entry>
   <entry>
@@ -20,118 +21,73 @@
     <content><![CDATA[<p><em><strong>之前在参与举办我们学校新生杯的时候，因为需要就系统地学习了一下 Docker 技术，最近做了个小小的总结</strong></em></p>
 <span id="more"></span>
 
-<h3 id="初识-Docker"><a href="#初识-Docker" class="headerlink" title="初识 Docker"></a>初识 Docker</h3><h5 id="Docker-概念"><a href="#Docker-概念" class="headerlink" title="Docker 概念"></a>Docker 概念</h5><ul>
+<h3 id="初识-Docker"><a href="#初识-Docker" class="headerlink" title="初识 Docker"></a>初识 Docker</h3><h4 id="Docker-概念"><a href="#Docker-概念" class="headerlink" title="Docker 概念"></a>Docker 概念</h4><ul>
 <li>Dokcer 是一个开源的应用容器引擎</li>
 <li>基于 Go 语言实现</li>
 <li>容器完全使用沙箱机制，相互隔离</li>
 <li>容器性能开销极低</li>
 </ul>
-<h5 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h5><ul>
-<li>脚本安装</li>
+<h4 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h4><ul>
+<li><p>脚本安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -fsSL get.docker.com -o get-docker.sh</span><br><span class="line">sudo sh get-docker.sh --mirror Aliyun</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -fsSL get.docker.com -o get-docker.sh</span><br><span class="line">sudo sh get-docker.sh --mirror Aliyun</span><br></pre></td></tr></table></figure>
-
-<h5 id="Docker-架构"><a href="#Docker-架构" class="headerlink" title="Docker 架构"></a>Docker 架构</h5><ul>
+<h4 id="Docker-架构"><a href="#Docker-架构" class="headerlink" title="Docker 架构"></a>Docker 架构</h4><ul>
 <li>镜像（image）：相当于是一个 root 文件系统</li>
 <li>容器（container）：镜像和容器的关系，就像是面向对象程序设计中的类和对象一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等</li>
 <li>仓库（repository）：仓库看作是一个代码控制中心，用来保存镜像</li>
 </ul>
-<h5 id="Docker-配置加速器"><a href="#Docker-配置加速器" class="headerlink" title="Docker 配置加速器"></a>Docker 配置加速器</h5><ul>
-<li>配置阿里云</li>
+<h4 id="Docker-配置加速器"><a href="#Docker-配置加速器" class="headerlink" title="Docker 配置加速器"></a>Docker 配置加速器</h4><ul>
+<li><p>配置阿里云</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">打开配置文件</span></span><br><span class="line">vim /etc/docker/daemon.json</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">添加配置</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">执行命令生效</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">打开配置文件</span></span><br><span class="line">vim /etc/docker/daemon.json</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">添加配置</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">执行命令生效</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="Docker-命令"><a href="#Docker-命令" class="headerlink" title="Docker 命令"></a>Docker 命令</h3><h5 id="进程相关命令"><a href="#进程相关命令" class="headerlink" title="进程相关命令"></a>进程相关命令</h5><ul>
-<li>启动 docker</li>
+<h3 id="Docker-命令"><a href="#Docker-命令" class="headerlink" title="Docker 命令"></a>Docker 命令</h3><h4 id="进程相关命令"><a href="#进程相关命令" class="headerlink" title="进程相关命令"></a>进程相关命令</h4><ul>
+<li><p>启动 docker</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure></li>
+<li><p>停止 docker</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop docke</span><br></pre></td></tr></table></figure></li>
+<li><p>重启 docker</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure></li>
+<li><p>查看 docker 服务状态</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl status docker</span><br></pre></td></tr></table></figure></li>
+<li><p>设置开机启动 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable docker</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>停止 docker</li>
+<h4 id="镜像相关命令"><a href="#镜像相关命令" class="headerlink" title="镜像相关命令"></a>镜像相关命令</h4><ul>
+<li><p>查看镜像：查看本地所有镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker images</span><br><span class="line">docker images -q #查看所用镜像 id</span><br></pre></td></tr></table></figure></li>
+<li><p>搜索镜像：从网络中查看需要的镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker search 镜像名称</span><br></pre></td></tr></table></figure></li>
+<li><p>拉取镜像：l从Docker仓库下载镜像到本地，镜像名称格式为 名称:版本号，如果版本号不指定则是最新的版本。如果不知道镜像版本，可以去docker hub 搜索对应镜像查看</p>
+</li>
+<li><p>```shell<br>docker pull 镜像名称</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 删除镜像</span><br><span class="line"></span><br><span class="line">  ```shell</span><br><span class="line">  docker rmi 镜像id #删除本地镜像</span><br><span class="line">  docker rmi `docker images -q` #删除本地所有镜像</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop docke</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>重启 docker</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查看 docker 服务状态</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl status docker</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>设置开机启动 </li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable docker</span><br></pre></td></tr></table></figure>
-
-<h5 id="镜像相关命令"><a href="#镜像相关命令" class="headerlink" title="镜像相关命令"></a>镜像相关命令</h5><ul>
-<li>查看镜像：查看本地所有镜像</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker images</span><br><span class="line">docker images -q #查看所用镜像 id</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>搜索镜像：从网络中查看需要的镜像</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker search 镜像名称</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>拉取镜像：l从Docker仓库下载镜像到本地，镜像名称格式为 名称:版本号，如果版本号不指定则是最新的版本。如果不知道镜像版本，可以去docker hub 搜索对应镜像查看</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull 镜像名称</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除镜像</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker rmi 镜像id #删除本地镜像</span><br><span class="line">docker rmi `docker images -q` #删除本地所有镜像</span><br></pre></td></tr></table></figure>
-
-<h5 id="容器相关命令"><a href="#容器相关命令" class="headerlink" title="容器相关命令"></a>容器相关命令</h5><ul>
-<li>查看容器</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker ps #查看正在运行的容器</span><br><span class="line">docker ps -a #查看所有容器</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>创建容器</li>
-</ul>
+<h4 id="容器相关命令"><a href="#容器相关命令" class="headerlink" title="容器相关命令"></a>容器相关命令</h4><ul>
+<li><p>查看容器</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker ps #查看正在运行的容器</span><br><span class="line">docker ps -a #查看所有容器</span><br></pre></td></tr></table></figure></li>
+<li><p>创建容器</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run 参数</span><br></pre></td></tr></table></figure>
 
-<p>  参数说明：</p>
+<p>参数说明：</p>
 <ul>
-<li><p><code>-i：保持容器运行，通常与 -t 参数一起使用</code></p>
-</li>
-<li><p><code>-t：为容器分配一个伪终端</code></p>
-</li>
-<li><p><code>-d：以守护模式运行容器，创建一个容器在后台运行</code></p>
-</li>
-<li><p><code>--name：为创建的容器命名</code></p>
+<li><code>-i：保持容器运行，通常与 -t 参数一起使用</code></li>
+<li><code>-t：为容器分配一个伪终端</code></li>
+<li><code>-d：以守护模式运行容器，创建一个容器在后台运行</code></li>
+<li><code>--name：为创建的容器命名</code></li>
+</ul>
 </li>
 <li><p>进入容器</p>
-</li>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec 参数 #退出容器，容器不会关闭</span><br></pre></td></tr></table></figure></li>
+<li><p>启动容器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker start 容器名称</span><br></pre></td></tr></table></figure></li>
+<li><p>停止容器</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker stop 容器名称</span><br></pre></td></tr></table></figure></li>
+<li><p>删除容器</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dokcer rm 容器名称</span><br></pre></td></tr></table></figure></li>
+<li><p>查看容器信息</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dokcer inspect 容器名</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec 参数 #退出容器，容器不会关闭</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>启动容器</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker start 容器名称</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>停止容器</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker stop 容器名称</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除容器</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dokcer rm 容器名称</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查看容器信息</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dokcer inspect 容器名</span><br></pre></td></tr></table></figure>
-
-<h3 id="Docker-数据卷"><a href="#Docker-数据卷" class="headerlink" title="Docker 数据卷"></a>Docker 数据卷</h3><h5 id="数据卷概念"><a href="#数据卷概念" class="headerlink" title="数据卷概念"></a>数据卷概念</h5><ul>
+<h3 id="Docker-数据卷"><a href="#Docker-数据卷" class="headerlink" title="Docker 数据卷"></a>Docker 数据卷</h3><h4 id="数据卷概念"><a href="#数据卷概念" class="headerlink" title="数据卷概念"></a>数据卷概念</h4><ul>
 <li>数据卷是宿主机中的一个目录或文件</li>
 <li>当容器目录和数据卷绑定之后，两者的修改是同步的</li>
 <li>一个数据卷可以被多个容器挂载，一个容器也可以挂载多个数据卷</li>
@@ -142,9 +98,8 @@
 </ul>
 </li>
 </ul>
-<h5 id="数据卷配置"><a href="#数据卷配置" class="headerlink" title="数据卷配置"></a>数据卷配置</h5><ul>
-<li>创建容器时，设置数据卷</li>
-</ul>
+<h4 id="数据卷配置"><a href="#数据卷配置" class="headerlink" title="数据卷配置"></a>数据卷配置</h4><ul>
+<li><p>创建容器时，设置数据卷</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run ... -v 宿主机目录:容器内目录 ...</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -155,17 +110,20 @@
 </ol>
 </li>
 </ul>
-<h5 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h5><h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><h5 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h5><ul>
-<li>容器转镜像</li>
+</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker commit 容器id 镜像名称:版本号</span><br><span class="line">docker save -o 压缩文件名称 镜像名称:版本号</span><br><span class="line">docker load -i 压缩文件名称</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Dockerfile</li>
+<h4 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h4><h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><h4 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h4><ul>
+<li><p>容器转镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker commit 容器id 镜像名称:版本号</span><br><span class="line">docker save -o 压缩文件名称 镜像名称:版本号</span><br><span class="line">docker load -i 压缩文件名称</span><br></pre></td></tr></table></figure></li>
+<li><p>Dockerfile</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">定义父镜像：FROM centos:7</span><br><span class="line">定义作者信息：MAINTAINER  itheima &lt;itheima@itcast.cn&gt;</span><br><span class="line">执行安装vim命令： RUN yum install -y vim</span><br><span class="line">定义默认的工作目录：WORKDIR /usr</span><br><span class="line">定义容器启动执行的命令：CMD /bin/bash</span><br><span class="line">通过dockerfile构建镜像：docker bulid –f dockerfile文件路径 –t 镜像名称:版本</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">定义父镜像：FROM centos:7</span><br><span class="line">定义作者信息：MAINTAINER  itheima &lt;itheima@itcast.cn&gt;</span><br><span class="line">执行安装vim命令： RUN yum install -y vim</span><br><span class="line">定义默认的工作目录：WORKDIR /usr</span><br><span class="line">定义容器启动执行的命令：CMD /bin/bash</span><br><span class="line">通过dockerfile构建镜像：docker bulid –f dockerfile文件路径 –t 镜像名称:版本</span><br></pre></td></tr></table></figure>]]></content>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
       <tags>
-        <tag>Web</tag>
+        <tag>Develop</tag>
       </tags>
   </entry>
   <entry>
@@ -217,6 +175,7 @@
         <tag>Web</tag>
         <tag>CTF</tag>
         <tag>WP</tag>
+        <tag>Sec</tag>
       </tags>
   </entry>
   <entry>
@@ -266,6 +225,7 @@
         <tag>Web</tag>
         <tag>CTF</tag>
         <tag>WP</tag>
+        <tag>Sec</tag>
       </tags>
   </entry>
 </search>
