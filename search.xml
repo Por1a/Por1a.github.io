@@ -77,10 +77,12 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker search 镜像名称</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><p>拉取镜像：l从Docker仓库下载镜像到本地，镜像名称格式为 名称:版本号，如果版本号不指定则是最新的版本。如果不知道镜像版本，可以去docker hub 搜索对应镜像查看</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull 镜像名称</span><br></pre></td></tr></table></figure></li>
-<li><p>删除镜像</p>
-</li>
+<li>拉取镜像：l从Docker仓库下载镜像到本地，镜像名称格式为 名称:版本号，如果版本号不指定则是最新的版本。如果不知道镜像版本，可以去docker hub 搜索对应镜像查看</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull 镜像名称</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除镜像</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker rmi 镜像id #删除本地镜像</span><br><span class="line">docker rmi `docker images -q` #删除本地所有镜像</span><br></pre></td></tr></table></figure>
 
@@ -212,9 +214,9 @@
         <category>比赛WP</category>
       </categories>
       <tags>
+        <tag>Web</tag>
         <tag>CTF</tag>
         <tag>WP</tag>
-        <tag>Web</tag>
       </tags>
   </entry>
   <entry>
@@ -261,9 +263,9 @@
         <category>比赛WP</category>
       </categories>
       <tags>
+        <tag>Web</tag>
         <tag>CTF</tag>
         <tag>WP</tag>
-        <tag>Web</tag>
       </tags>
   </entry>
 </search>
