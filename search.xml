@@ -16,6 +16,166 @@
       </tags>
   </entry>
   <entry>
+    <title>愿天堂没有Java之Stream流</title>
+    <url>/2021/12/14/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8BStream%E6%B5%81/</url>
+    <content><![CDATA[<p><strong>JavaSE 笔记（五）</strong></p>
+<span id="more"></span>
+
+<blockquote>
+<p>Java 是一门非常严谨的语言</p>
+</blockquote>
+<h4 id="Stream-流概述"><a href="#Stream-流概述" class="headerlink" title="Stream 流概述"></a>Stream 流概述</h4><h5 id="认识一下嘛"><a href="#认识一下嘛" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>得益于 Lambda 所带来的函数式编程，出现了 Stream 流的概念</li>
+<li>用于简化集合和数组操作的 API</li>
+</ul>
+<h5 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h5><ul>
+<li>先得到集合或者数组的 Stream 流</li>
+<li>将元素放在上面</li>
+<li>用 Stream 流简化的方式来方便的操作元素</li>
+</ul>
+<h5 id="流的三类方法"><a href="#流的三类方法" class="headerlink" title="流的三类方法"></a>流的三类方法</h5><ul>
+<li>获取流：创建一条流水线，并把数据放在流水线上操作</li>
+<li>中间方法：一次操作完成之后，还可以继续其他操作</li>
+<li>终结方法：一个流只能有一个终结方法，是流水线上的最后一个操作</li>
+</ul>
+<h4 id="流的获取"><a href="#流的获取" class="headerlink" title="流的获取"></a>流的获取</h4><h5 id="集合获取流"><a href="#集合获取流" class="headerlink" title="集合获取流"></a>集合获取流</h5><ul>
+<li><p>使用 Collection 接口中的默认方法</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default  Stream&lt;E&gt; stream()</code></td>
+<td>获取当前集合对象的Stream流</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Collection集合获取流</span></span><br><span class="line">Collection&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Stream&lt;String&gt; s =  list.stream();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Map集合获取流</span></span><br><span class="line">Map&lt;String, Integer&gt; maps = <span class="keyword">new</span> HashMap&lt;&gt;();							</span><br><span class="line">Stream&lt;String&gt; keyStream = maps.keySet().stream();	<span class="comment">// 键流		    </span></span><br><span class="line">Stream&lt;Integer&gt; valueStream = maps.values().stream();	<span class="comment">// 值流			</span></span><br><span class="line">Stream&lt;Map.Entry&lt;String,Integer&gt;&gt; keyAndValueStream =  maps.entrySet().stream();	<span class="comment">// 键值对流（拿整体）</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="数组获取流"><a href="#数组获取流" class="headerlink" title="数组获取流"></a>数组获取流</h5><ul>
+<li><p>用到的方法</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  static &lt;T&gt;  Stream&lt;T&gt;  stream(T[]  array)</code></td>
+<td>获取当前数组的Stream流</td>
+</tr>
+<tr>
+<td><code>public  static&lt;T&gt;  Stream&lt;T&gt;  of(T...  values)</code></td>
+<td>获取当前数组/可变数据的Stream流</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String[] names = &#123;<span class="string">&quot;Poria&quot;</span>,<span class="string">&quot;Pupi1&quot;</span>&#125;;</span><br><span class="line">Stream&lt;String&gt; nameStream1 = Arrays.stream(names);</span><br><span class="line">Stream&lt;String&gt; nameStream2 = Stream.of(names);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="流的中间方法"><a href="#流的中间方法" class="headerlink" title="流的中间方法"></a>流的中间方法</h4><h5 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h5><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Stream&lt;T&gt;  filter(Predicate&lt;?  super  T&gt;  predicate)</code></td>
+<td>用于对流中的数据进行<strong>过滤。</strong></td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;  limit(long maxSize)</code></td>
+<td>获取前几个元素</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;  skip(long n)</code></td>
+<td>跳过前几个元素</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;  distinct()</code></td>
+<td>去除流中重复的元素。依赖(hashCode和equals方法)</td>
+</tr>
+<tr>
+<td><code>static  &lt;T&gt; Stream&lt;T&gt; concat(Stream  a, Stream b)</code></td>
+<td><strong>合并</strong>a和b两个流为一个流</td>
+</tr>
+</tbody></table>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li>中间方法也称非终结方法，调用完成之后返回新的流可以继续使用，支持链式编程</li>
+<li>在流中无法直接修改集合、数组中的数据</li>
+</ul>
+<h4 id="流的终结方法"><a href="#流的终结方法" class="headerlink" title="流的终结方法"></a>流的终结方法</h4><h5 id="常用方法-1"><a href="#常用方法-1" class="headerlink" title="常用方法"></a>常用方法</h5><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void  forEach(Consumer  action)</code></td>
+<td>对此流的每个元素执行遍历操作</td>
+</tr>
+<tr>
+<td><code>long count()</code></td>
+<td>返回此流中的元素数</td>
+</tr>
+</tbody></table>
+<h5 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li>调用之后无法继续使用流了，因为这些方法不会返回流</li>
+</ul>
+<h4 id="流的收集"><a href="#流的收集" class="headerlink" title="流的收集"></a>流的收集</h4><h5 id="认识一下嘛-1"><a href="#认识一下嘛-1" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>把流操作后的结果数据转回到集合或者数组中去</li>
+<li>流只是方便操作集合/数组的<strong>手段</strong>，集合/数组才是开发中的<strong>目的</strong></li>
+</ul>
+<h5 id="收集方法"><a href="#收集方法" class="headerlink" title="收集方法"></a>收集方法</h5><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>R collect(Collector collector)</code></td>
+<td>开始收集Stream流，指定收集器</td>
+</tr>
+</tbody></table>
+<p>Collectors 工具类中提供了具体的收集方法</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public static &lt;T&gt; Collector toList()</code></td>
+<td>把元素收集到List集合中</td>
+</tr>
+<tr>
+<td><code>public static &lt;T&gt; Collector toSet()</code></td>
+<td>把元素收集到Set集合中</td>
+</tr>
+<tr>
+<td><code>public static Collector toMap(Function keyMapper  , Function valueMapper)</code></td>
+<td>把元素收集到Map集合中</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Develop</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>愿天堂没有Java之集合</title>
     <url>/2021/12/14/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8B%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[<p><strong>JavaSE 笔记（四）</strong></p>
