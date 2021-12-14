@@ -16,6 +16,544 @@
       </tags>
   </entry>
   <entry>
+    <title>愿天堂没有Java之集合</title>
+    <url>/2021/12/14/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8B%E9%9B%86%E5%90%88/</url>
+    <content><![CDATA[<p><strong>JavaSE 笔记（四）</strong></p>
+<span id="more"></span>
+
+<blockquote>
+<p>Java 是一门非常严谨的语言</p>
+</blockquote>
+<h4 id="泛型概述"><a href="#泛型概述" class="headerlink" title="泛型概述"></a>泛型概述</h4><h5 id="认识一下嘛"><a href="#认识一下嘛" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>可以在编译阶段约束操作的数据类型</li>
+<li>格式为：<code>&lt;数据类型&gt;</code>，只能支持引用数据类型</li>
+<li>可以定义的地方<ul>
+<li>泛型类：类后面定义</li>
+<li>泛型方法：方法申明上定义</li>
+<li>泛型接口：接口后面定义</li>
+</ul>
+</li>
+</ul>
+<h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><ul>
+<li>统一数据类型，把出现泛型变量的地方全部替换为传输的真实数据类型</li>
+<li>把运行时期可能出现的问题提到了编译期间，避免了强制类型转换可能出现的异常</li>
+</ul>
+<h5 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h5><ul>
+<li><p>格式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">修饰符 <span class="class"><span class="keyword">class</span> 类名&lt;泛型变量&gt;</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyArrayList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ArrayList lists = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">        lists.add(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">        lists.remove(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> lists.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>作用：编译阶段约定操作的数据的类型，类似于集合的作用</p>
+</li>
+</ul>
+<h5 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h5><ul>
+<li><p>格式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">修饰符 &lt;泛型变量&gt; 方法返回值 方法名称(形参列表)&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">printArray</span><span class="params">(T[] arr)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(arr == <span class="keyword">null</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> System.out.println(arr);</span><br><span class="line">  &#125;</span><br><span class="line">  StringBuilder sb = <span class="keyword">new</span> StringBuilder(<span class="string">&quot;[&quot;</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++)&#123;</span><br><span class="line">    sb.append(arr[i]).append(i == arr.length - <span class="number">1</span> ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;,&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  sb.append(<span class="string">&quot;]&quot;</span>);</span><br><span class="line">  System.out.println(sb);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>作用：方法中可以使用泛型接收一切实际类型的参数，方法更具备通用性</p>
+</li>
+</ul>
+<h5 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h5><ul>
+<li><p>格式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">修饰符 <span class="class"><span class="keyword">interface</span> 接口名称&lt;泛型变量&gt;</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Data</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(E e)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(E e)</span></span>;</span><br><span class="line">    <span class="function">E <span class="title">queryById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>作用：实现类可以在实现接口的时候传入自己操作的数据类型，这样重写的方法都将是针对于该类型的操作</p>
+</li>
+</ul>
+<h5 id="通配符与上下限"><a href="#通配符与上下限" class="headerlink" title="通配符与上下限"></a>通配符与上下限</h5><ul>
+<li>通配符<code>?</code><ul>
+<li>可以在<strong>使用</strong>泛型中代表一切类型</li>
+<li><code>E T K V</code>是在<strong>定义</strong>泛型的时候使用的</li>
+</ul>
+</li>
+<li>上下限<ul>
+<li><code>? extends Car</code>：此时，<code>?</code>必须是 Car 或者其子类，泛型上限</li>
+<li><code>? super Car</code>：此时，<code>?</code>必须是 Car 或者其父类，泛型下限</li>
+</ul>
+</li>
+</ul>
+<h4 id="集合概述"><a href="#集合概述" class="headerlink" title="集合概述"></a>集合概述</h4><h5 id="认识一下嘛-1"><a href="#认识一下嘛-1" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>集合和数组都是容器，用来存放数据</li>
+<li>数组可以存储基本数据类型和引用类型，集合<strong>只能存储引用类型</strong></li>
+<li>但是数组完成定义之后，类型确定，长度确定；但是集合启动之后，<strong>类型长度都可以发生变化</strong>，更像是气球</li>
+</ul>
+<h5 id="体系特点"><a href="#体系特点" class="headerlink" title="体系特点"></a>体系特点</h5><ul>
+<li>集合分为两类<ul>
+<li><code>Collection</code>单列集合，每个元素只包含一个值</li>
+<li><code>Map</code>双列集合，每个元素包含两个值（键值对）</li>
+</ul>
+</li>
+</ul>
+<h4 id="Collection-集合"><a href="#Collection-集合" class="headerlink" title="Collection 集合"></a>Collection 集合</h4><h5 id="认识一下嘛-2"><a href="#认识一下嘛-2" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>List（接口） 系列集合<ul>
+<li>ArrayList（实现类）：有序、可重复、有索引</li>
+<li>LinkedList（实现类）：有序、可重复、有索引</li>
+</ul>
+</li>
+<li>Set（接口） 系列集合<ul>
+<li>HashSet（实现类）：无序、不重复、无索引</li>
+<li>LinkedHashSet（实现类）：有序、不重复、无索引</li>
+<li>TreeSet（实现类）：按照大小默认升序排列、不重复、无索引</li>
+</ul>
+</li>
+</ul>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li>集合支持泛型</li>
+<li>集合与泛型不支持基本类型，只支持引用类型</li>
+<li>集合中存储的元素都被认为是对象</li>
+</ul>
+<h5 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h5><ul>
+<li><p>Collection 是单列集合的祖宗接口，它的功能全部单列集合都可以继承使用</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  boolean add(E e)</code></td>
+<td>把给定的对象添加到当前集合中</td>
+</tr>
+<tr>
+<td><code>public  void clear()</code></td>
+<td>清空集合中所有的元素</td>
+</tr>
+<tr>
+<td><code>public  boolean remove(E e)</code></td>
+<td>把给定的对象在当前集合中删除</td>
+</tr>
+<tr>
+<td><code>public  boolean contains(Object obj)</code></td>
+<td>判断当前集合中是否包含给定的对象</td>
+</tr>
+<tr>
+<td><code>public  boolean isEmpty()</code></td>
+<td>判断当前集合是否为空</td>
+</tr>
+<tr>
+<td><code>public  int size()</code></td>
+<td>返回集合中元素的个数。</td>
+</tr>
+<tr>
+<td><code>public  Object[] toArray()</code></td>
+<td>把集合中的元素，存储到数组中</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="集合的遍历方式"><a href="#集合的遍历方式" class="headerlink" title="集合的遍历方式"></a>集合的遍历方式</h5><ul>
+<li><p>方式一：迭代器</p>
+<ul>
+<li><p>获取迭代器</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Iterator&lt;E&gt;  iterator()</code></td>
+<td>返回集合中的迭代器对象，该迭代器对象默认指向当前集合的0索引</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>常用方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean hasNext()</code></td>
+<td>询问当前位置是否有元素存在，存在返回true ,不存在返回false</td>
+</tr>
+<tr>
+<td><code>E  next()</code></td>
+<td>获取当前位置的元素，并同时将迭代器对象移向下一个位置，注意防止取出越界。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Iterator&lt;String&gt; it = lists.iterator();</span><br><span class="line"><span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">  String ele = it.next();</span><br><span class="line">  System.out.println(ele);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>方式二：增强 for 循环</p>
+<ul>
+<li><p>既可以遍历集合也可以遍历数组</p>
+</li>
+<li><p>在遍历删除时可能会出现并发修改异常</p>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(元素数据类型 变量名 : 数组或者Collection集合) &#123;</span><br><span class="line">         <span class="comment">//在此处使用变量即可，该变量就是元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Collection&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;poria1&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;poria2&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;poria3&quot;</span>);</span><br><span class="line"><span class="keyword">for</span>(String ele : list) &#123;</span><br><span class="line">  System.out.println(ele);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>方式三：lambda 表达式</p>
+<ul>
+<li><p>方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default void forEach(Consumer&lt;? super T&gt; action):</code></td>
+<td>结合lambda遍历集合</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Collection&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;poria1&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;poria2&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;poria3&quot;</span>);</span><br><span class="line">lists.forEach(<span class="keyword">new</span> Consumer&lt;String&gt;()&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function">pubilc <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">    System.out.println(s);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以上代码可以简化为</span></span><br><span class="line">lists.forEach(s -&gt; System.out.println(s));</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h5 id="List-系列集合"><a href="#List-系列集合" class="headerlink" title="List 系列集合"></a>List 系列集合</h5><ul>
+<li><p>特有方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void add(int  index,E element)</code></td>
+<td>在此集合中的指定位置插入指定的元素</td>
+</tr>
+<tr>
+<td><code>E remove(int  index)</code></td>
+<td>删除指定索引处的元素，返回被删除的元素</td>
+</tr>
+<tr>
+<td><code>E set(int index,E  element)</code></td>
+<td>修改指定索引处的元素，返回被修改的元素</td>
+</tr>
+<tr>
+<td><code>E get(int  index)</code></td>
+<td>返回指定索引处的元素</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>遍历方式</p>
+<ul>
+<li>迭代器</li>
+<li>增强 for 循环</li>
+<li>Lambda 表达式</li>
+<li>for 循环（List 集合有索引）</li>
+</ul>
+</li>
+<li><p>ArrayList</p>
+<ul>
+<li>基于数组实现，定位元素快，增删则需要移位，效率较低</li>
+<li>第一次创建集合并添加元素时，会默认创建一个长度为10的数组</li>
+</ul>
+</li>
+<li><p>LinkedList</p>
+<ul>
+<li><p>基于双链表实现，首位操作快，查询慢</p>
+</li>
+<li><p>特有功能</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  void addFirst(E e)</code></td>
+<td>在该列表开头插入指定的元素</td>
+</tr>
+<tr>
+<td><code>public  void addLast(E e)</code></td>
+<td>将指定的元素追加到此列表的末尾</td>
+</tr>
+<tr>
+<td><code>public  E getFirst()</code></td>
+<td>返回此列表中的第一个元素</td>
+</tr>
+<tr>
+<td><code>public  E getLast()</code></td>
+<td>返回此列表中的最后一个元素</td>
+</tr>
+<tr>
+<td><code>public  E removeFirst()</code></td>
+<td>从此列表中删除并返回第一个元素</td>
+</tr>
+<tr>
+<td><code>public  E removeLast()</code></td>
+<td>从此列表中删除并返回最后一个元素</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Set-系列集合"><a href="#Set-系列集合" class="headerlink" title="Set 系列集合"></a>Set 系列集合</h5><ul>
+<li>常见方法<ul>
+<li>功能与 Collection 的基本一致</li>
+</ul>
+</li>
+<li>LinkedHashSet<ul>
+<li>基于数组 + 双链表 + 红黑树实现</li>
+</ul>
+</li>
+<li>TreeSet<ul>
+<li>基于红黑树实现排序</li>
+<li>该集合一定要排序，可以将元素按照指定的规则排序</li>
+</ul>
+</li>
+</ul>
+<h5 id="使用场景总结"><a href="#使用场景总结" class="headerlink" title="使用场景总结"></a>使用场景总结</h5><ul>
+<li>元素可重复，有索引，索引查询要快<ul>
+<li>ArrayList 基于数组</li>
+</ul>
+</li>
+<li>元素可重复，有索引，首位操作快<ul>
+<li>LinkedList 基于链表</li>
+</ul>
+</li>
+<li>增删改查快，元素不重复、无序、无索引<ul>
+<li>HashSet 基于哈希表</li>
+</ul>
+</li>
+<li>增删改查快、元素不重复、有序、无索引<ul>
+<li>LinkedHashSet 基于哈希表和双链表</li>
+</ul>
+</li>
+</ul>
+<h4 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h4><h5 id="认识一下嘛-3"><a href="#认识一下嘛-3" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li><p>可变参数在形参中可以接收<strong>多个数据</strong></p>
+</li>
+<li><p>格式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">数据类型...参数名称</span><br><span class="line"></span><br><span class="line">sum(); <span class="comment">// 1、不传参数</span></span><br><span class="line">sum(<span class="number">10</span>); <span class="comment">// 2、可以传输一个参数</span></span><br><span class="line">sum(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>); <span class="comment">// 3、可以传输多个参数</span></span><br><span class="line">sum(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;); <span class="comment">// 4、可以传输一个数组</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span>...nums)</span></span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
+<li>非常灵活，方便。可以不传输参数，可以传输1个或者多个，也可以传输一个数组</li>
+<li>可变参数在内部本质上就是一个数组</li>
+</ul>
+<h5 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li>一个形参列表中可变参数只能有一个</li>
+<li>可变参数必须<strong>放在形参列表最后面</strong></li>
+</ul>
+<h4 id="集合工具类"><a href="#集合工具类" class="headerlink" title="集合工具类"></a>集合工具类</h4><h5 id="认识一下嘛-4"><a href="#认识一下嘛-4" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li><code>java.utils.Collections</code>：是集合工具类</li>
+<li>Collections 不属于集合，是用来操作集合的工具类</li>
+</ul>
+<h5 id="常用方法-1"><a href="#常用方法-1" class="headerlink" title="常用方法"></a>常用方法</h5><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public static &lt;T&gt; boolean  addAll(Collection&lt;? super T&gt; c, T... elements)</code></td>
+<td>给集合对象批量添加元素</td>
+</tr>
+<tr>
+<td><code>public static void shuffle(List&lt;?&gt; list)</code></td>
+<td>打乱List集合元素的顺序</td>
+</tr>
+<tr>
+<td><code>public static &lt;T&gt; void sort(List&lt;T&gt; list)</code></td>
+<td>将集合中元素按照默认规则排序</td>
+</tr>
+<tr>
+<td><code>public static &lt;T&gt; void sort(List&lt;T&gt; list，Comparator&lt;? super T&gt; c)</code></td>
+<td>将集合中元素按照指定规则排序</td>
+</tr>
+</tbody></table>
+<h4 id="Map-集合"><a href="#Map-集合" class="headerlink" title="Map 集合"></a>Map 集合</h4><h5 id="认识一下嘛-5"><a href="#认识一下嘛-5" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>一种双列集合，每个元素包含两个数据</li>
+<li>每个元素格式：<code>key=value</code>（键值对元素）</li>
+<li>也被称为“键值对集合”</li>
+<li><code>&#123;key1=value1, key2=value2, key3=value3, ...&#125;</code></li>
+</ul>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>键占主导</li>
+<li>键是无序，不重复，无索引的，值不做要求</li>
+<li>当键重复时，后面的键对应的值会覆盖前面的键的值</li>
+<li>键值对都可以为 null</li>
+<li>实现类<ul>
+<li>HashMap：键是无序，不重复，无索引</li>
+<li>LinkedHashMap：键是有序，不重复，无索引</li>
+<li>TreeMap：键是排序，不重复，无索引</li>
+</ul>
+</li>
+</ul>
+<h5 id="常用功能"><a href="#常用功能" class="headerlink" title="常用功能"></a>常用功能</h5><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>V  put(K key,V value)</code></td>
+<td>添加元素</td>
+</tr>
+<tr>
+<td><code>V  remove(Object key)</code></td>
+<td>根据键删除键值对元素</td>
+</tr>
+<tr>
+<td><code>void  clear()</code></td>
+<td>移除所有的键值对元素</td>
+</tr>
+<tr>
+<td><code>boolean containsKey(Object key)</code></td>
+<td>判断集合是否包含指定的键</td>
+</tr>
+<tr>
+<td><code>boolean containsValue(Object value)</code></td>
+<td>判断集合是否包含指定的值</td>
+</tr>
+<tr>
+<td><code>boolean isEmpty()</code></td>
+<td>判断集合是否为空</td>
+</tr>
+<tr>
+<td><code>int  size()</code></td>
+<td>集合的长度，也就是集合中键值对的个数</td>
+</tr>
+</tbody></table>
+<h5 id="遍历方式"><a href="#遍历方式" class="headerlink" title="遍历方式"></a>遍历方式</h5><ul>
+<li><p>方式一：键找值</p>
+<ul>
+<li><p>先获取 Map 集合的全部键的 Set 集合</p>
+</li>
+<li><p>遍历键的 Set 集合，然后通过键提取对应值</p>
+</li>
+<li><p>用到的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Set&lt;K&gt;  keySet()</code></td>
+<td>获取所有键的集合</td>
+</tr>
+<tr>
+<td><code>V  get(Object key)</code></td>
+<td>根据键获取值</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String , Integer&gt; maps = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">maps.put(<span class="string">&quot;Poria&quot;</span>,<span class="number">100</span>);</span><br><span class="line">maps.put(<span class="string">&quot;Pupi1&quot;</span>,<span class="number">100</span>);</span><br><span class="line">Set&lt;String&gt; keys = maps.keySet();</span><br><span class="line"><span class="keyword">for</span> (String key : keys) &#123;</span><br><span class="line">  <span class="keyword">int</span> value = maps.get(key);</span><br><span class="line">  System.out.println(key + <span class="string">&quot;===&gt;&quot;</span> + value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>方式二：键值对</p>
+<ul>
+<li><p>先把 Map 集合转化为 Set 集合，Set 集合中的每个元素都是键值对实体类型了</p>
+</li>
+<li><p>遍历 Set 集合，然后提取键以及提取值</p>
+</li>
+<li><p>用到的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()</code></td>
+<td>获取所有键值对对象的集合</td>
+</tr>
+<tr>
+<td><code>K getKey()</code></td>
+<td>获得键</td>
+</tr>
+<tr>
+<td><code>V getValue()</code></td>
+<td>获取值</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String , Integer&gt; maps = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">maps.put(<span class="string">&quot;Poria&quot;</span>,<span class="number">100</span>);</span><br><span class="line">maps.put(<span class="string">&quot;Pupi1&quot;</span>,<span class="number">100</span>);</span><br><span class="line">Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entries = maps.entrySet();</span><br><span class="line"><span class="keyword">for</span>(Map.Entry&lt;String, Integer&gt; entry : entries)&#123;</span><br><span class="line">  String key = entry.getKey();</span><br><span class="line">  <span class="keyword">int</span> value = entry.getValue();</span><br><span class="line">  System.out.println(key + <span class="string">&quot;====&gt;&quot;</span> + value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>方式三：Lambda 表达式</p>
+<ul>
+<li><p>用到的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default void forEach(BiConsumer&lt;?  super  K,  ? super  V&gt;  action)</code></td>
+<td>结合lambda遍历Map集合</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String , Integer&gt; maps = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">maps.put(<span class="string">&quot;Poria&quot;</span>,<span class="number">100</span>);</span><br><span class="line">maps.put(<span class="string">&quot;Pupi1&quot;</span>,<span class="number">100</span>);</span><br><span class="line">maps.forEach(<span class="keyword">new</span> BiConsumer&lt;String, Integer&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String key, Integer value)</span> </span>&#123;</span><br><span class="line">    System.out.println(key + <span class="string">&quot;---&gt;&quot;</span> + value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以上代码可简化为</span></span><br><span class="line">maps.forEach((k, v) -&gt; System.out.println(k + <span class="string">&quot;---&gt;&quot;</span> + v));</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h5 id="实现类"><a href="#实现类" class="headerlink" title="实现类"></a>实现类</h5><ul>
+<li>HashMap<ul>
+<li>底层为哈希表结构</li>
+<li>依赖 hashCode 方法和 equals 方法保证键的唯一</li>
+</ul>
+</li>
+<li>LinkedHashMap<ul>
+<li>底层依然是哈希表，但是额外多了一个双链表的机制记录存储的顺序</li>
+</ul>
+</li>
+<li>TreeMap<ul>
+<li>默认排序，只对键排序，基于红黑树实现</li>
+</ul>
+</li>
+</ul>
+<h4 id="不可变集合"><a href="#不可变集合" class="headerlink" title="不可变集合"></a>不可变集合</h4><h5 id="认识一下嘛-6"><a href="#认识一下嘛-6" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>如果某个数据不能被修改，就将它拷贝到不可变集合中</li>
+<li>当集合对象被不可信的库调用时，不可变形式是安全的</li>
+</ul>
+<h5 id="常用方法-2"><a href="#常用方法-2" class="headerlink" title="常用方法"></a>常用方法</h5><ul>
+<li><p>在 List，Set，Map接口中都存在 of 方法，可以创建一个不可变的集合</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static  &lt;E&gt; List&lt;E&gt; of(E…elements)</code></td>
+<td>创建一个具有指定元素的List集合对象</td>
+</tr>
+<tr>
+<td><code>static  &lt;E&gt; Set&lt;E&gt; of(E…elements)</code></td>
+<td>创建一个具有指定元素的Set集合对象</td>
+</tr>
+<tr>
+<td><code>static &lt;K  , V&gt;  Map&lt;K，V&gt; of(E…elements)</code></td>
+<td>创建一个具有指定元素的Map集合对象</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Develop</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>愿天堂没有Java之常见API</title>
     <url>/2021/12/08/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8B%E5%B8%B8%E8%A7%81API/</url>
     <content><![CDATA[<p><strong>JavaSE 笔记（三）</strong></p>
