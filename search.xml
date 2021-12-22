@@ -16,6 +16,829 @@
       </tags>
   </entry>
   <entry>
+    <title>愿天堂没有Java之文件操作</title>
+    <url>/2021/12/22/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p><strong>JavaSE 笔记（七）</strong></p>
+<span id="more"></span>
+
+<blockquote>
+<p>Java 是一门非常严谨的语言</p>
+</blockquote>
+<h4 id="File-类概述"><a href="#File-类概述" class="headerlink" title="File 类概述"></a>File 类概述</h4><h5 id="认识一下嘛"><a href="#认识一下嘛" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>该类在 java.io.File 下，代表操作系统的文件对象（文件、文件夹）</li>
+<li>该类可以定位文件，获取文件信息，删除、创建文件（夹）；但是不能读写文件</li>
+</ul>
+<h5 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h5><ul>
+<li>仅仅是一个路径名称，该路径可以存在，也可以不存在</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> (<span class="string">&quot;pathname&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="绝对路径与相对路径"><a href="#绝对路径与相对路径" class="headerlink" title="绝对路径与相对路径"></a>绝对路径与相对路径</h5><ul>
+<li><p>绝对路径：从盘符开始</p>
+<p><code>File file = new File(&quot;D:/poria/poria.txt&quot;);</code></p>
+</li>
+<li><p>相对路径：不带盘符，默认直接到当前工程下寻找文件</p>
+<p><code>File file = new File(&quot;模块名称/poria.txt&quot;);</code></p>
+</li>
+</ul>
+<h4 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h4><h5 id="判断文件类型、获取文件信息"><a href="#判断文件类型、获取文件信息" class="headerlink" title="判断文件类型、获取文件信息"></a>判断文件类型、获取文件信息</h5><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  boolean isDirectory()</code></td>
+<td>测试此抽象路径名表示的File是否为文件夹</td>
+</tr>
+<tr>
+<td><code>public  boolean isFile()</code></td>
+<td>测试此抽象路径名表示的File是否为文件</td>
+</tr>
+<tr>
+<td><code>public  boolean  exists()</code></td>
+<td>测试此抽象路径名表示的File是否存在</td>
+</tr>
+<tr>
+<td><code>public  String getAbsolutePath()</code></td>
+<td>返回此抽象路径名的绝对路径名字符串</td>
+</tr>
+<tr>
+<td><code>public  String getPath()</code></td>
+<td>将此抽象路径名转换为路径名字符串</td>
+</tr>
+<tr>
+<td><code>public  String getName()</code></td>
+<td>返回由此抽象路径名表示的文件或文件夹的名称</td>
+</tr>
+<tr>
+<td><code>public  long lastModified()</code></td>
+<td>返回文件最后修改的时间毫秒值</td>
+</tr>
+</tbody></table>
+<h5 id="创建文件"><a href="#创建文件" class="headerlink" title="创建文件"></a>创建文件</h5><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public boolean createNewFile()</code></td>
+<td>创建一个新的空的文件</td>
+</tr>
+<tr>
+<td><code>public boolean mkdir()</code></td>
+<td>只能创建一级文件夹</td>
+</tr>
+<tr>
+<td><code>public boolean mkdirs()</code></td>
+<td>可以创建多级文件夹</td>
+</tr>
+</tbody></table>
+<h5 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h5><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  boolean delete()</code></td>
+<td>删除由此抽象路径名表示的文件或空文件夹</td>
+</tr>
+</tbody></table>
+<ul>
+<li>delete 方法默认只能删除文件和空文件夹</li>
+<li>该删除方法不走回收站</li>
+</ul>
+<h5 id="遍历文件夹"><a href="#遍历文件夹" class="headerlink" title="遍历文件夹"></a>遍历文件夹</h5><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public String[] list()</code></td>
+<td>获取当前目录下所有的<strong>一级文件名称</strong>到一个字符串数组中去返回。</td>
+</tr>
+<tr>
+<td><code>public File[] listFiles()(常用)</code></td>
+<td>获取当前目录下所有的<strong>一级文件对象</strong>到一个文件对象数组中去返回（重点）</td>
+</tr>
+</tbody></table>
+<ul>
+<li>listFIles 注意事项<ul>
+<li>当调用者不存在时，返回 null</li>
+<li>当调用者是文件夹时，返回 null</li>
+<li>当调用者是一个空文件夹时，返回长度为0的数组</li>
+<li>当调用者是一个有内容的文件夹时，将里面所有的文件和文件夹的路径放在 File 数组中返回</li>
+<li>当调用者是一个有隐藏文件的文件夹时，会将所有内容返回，包括隐藏文件</li>
+<li>当调用者是一个有权限的文件夹时，返回 null</li>
+</ul>
+</li>
+</ul>
+<h4 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h4><h5 id="认识一下嘛-1"><a href="#认识一下嘛-1" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>计算机底层不可以直接存储字符，只能存储二进制</li>
+<li>二进制可以转化为十进制，十进制编号</li>
+<li>计算机可以给人类字符进行编号存储，这套编号规则就是字符集</li>
+</ul>
+<h5 id="常见字符集"><a href="#常见字符集" class="headerlink" title="常见字符集"></a>常见字符集</h5><ul>
+<li>ASCII<ul>
+<li>美国信息交换标准码</li>
+<li>一个字节存储一个字符，一个字节是8位，即2的八次方，对于英文，数字够用</li>
+</ul>
+</li>
+<li>GBK<ul>
+<li>windows系统默认的码表，兼容 ASCII 码表，也包含几万汉字，并支持繁体汉字以及部分日韩文字</li>
+<li>GBK 是中国的码表，一个中文以两个字节的形式存储</li>
+</ul>
+</li>
+<li>Unicode<ul>
+<li>又称统一码，万国码，单一码</li>
+<li>容纳有世界上大多数国家的所有常见文字和符号</li>
+<li>Unicode 会先通过 UTF-8，UTF-6 以及 UTF-32 的编码成二进制后再存储到计算机中</li>
+<li>UTF-8 编码后一个中文一般以三个字节形式存储</li>
+</ul>
+</li>
+</ul>
+<h5 id="编码解码方法"><a href="#编码解码方法" class="headerlink" title="编码解码方法"></a>编码解码方法</h5><ul>
+<li><p>String 编码</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>byte[] getBytes()</code></td>
+<td>使用平台的默认字符集将该  String编码为一系列字节，将结果存储到新的字节数组中</td>
+</tr>
+<tr>
+<td><code>byte[] getBytes(String charsetName)</code></td>
+<td>使用指定的字符集将该 String编码为一系列字节，将结果存储到新的字节数组中</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>String 解码</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String(byte[] bytes)</code></td>
+<td>通过使用平台的默认字符集解码指定的字节数组来构造新的  String</td>
+</tr>
+<tr>
+<td><code>String(byte[] bytes, String charsetName)</code></td>
+<td>通过指定的字符集解码指定的字节数组来构造新的 String</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h4 id="IO-流概述"><a href="#IO-流概述" class="headerlink" title="IO 流概述"></a>IO 流概述</h4><h5 id="认识一下嘛-2"><a href="#认识一下嘛-2" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>IO 流也成为输入、输出流，就是用来读写数据的</li>
+<li>I 表示 Input，是数据从磁盘文件读到内存的过程，称之为输入，负责读</li>
+<li>O 表示 Output，是内存数据从内存写到磁盘文件的过程，称之为输出，负责写</li>
+</ul>
+<h5 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h5><ul>
+<li>字节流：操作所有类型的文件</li>
+<li>字符流：只能操作纯文本文件</li>
+</ul>
+<h4 id="字节流的使用"><a href="#字节流的使用" class="headerlink" title="字节流的使用"></a>字节流的使用</h4><h5 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h5><table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  FileInputStream(File file)</code></td>
+<td>创建字节输入流管道与源文件对象接通</td>
+</tr>
+<tr>
+<td><code>public  FileInputStream(String pathname)</code></td>
+<td>创建字节输入流管道与源文件路径接通</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public int  read()</code></td>
+<td>每次读取一个字节返回，如果字节已经没有可读的返回-1</td>
+</tr>
+<tr>
+<td><code>public int  read(byte[] buffer)</code></td>
+<td>每次读取一个字节数组返回，如果字节已经没有可读的返回-1</td>
+</tr>
+<tr>
+<td><code>public byte[] readAllBytes() throws IOException</code></td>
+<td>直接将当前字节输入流对应的文件对象的字节数据装到一个字节数组返回</td>
+</tr>
+</tbody></table>
+<h5 id="FileOutputStream"><a href="#FileOutputStream" class="headerlink" title="FileOutputStream"></a>FileOutputStream</h5><table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public FileOutputStream(File file)</code></td>
+<td>创建字节输出流管道与源文件对象接通</td>
+</tr>
+<tr>
+<td><code>public FileOutputStream(File file，boolean append)</code></td>
+<td>创建字节输出流管道与源文件对象接通，可追加数据</td>
+</tr>
+<tr>
+<td><code>public FileOutputStream(String filepath)</code></td>
+<td>创建字节输出流管道与源文件路径接通</td>
+</tr>
+<tr>
+<td><code>public FileOutputStream(String filepath，boolean append)</code></td>
+<td>创建字节输出流管道与源文件路径接通，可追加数据</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public void write(int a)</code></td>
+<td>写一个字节出去</td>
+</tr>
+<tr>
+<td><code>public void write(byte[] buffer)</code></td>
+<td>写一个字节数组出去</td>
+</tr>
+<tr>
+<td><code>public void write(byte[] buffer , int pos , int len)</code></td>
+<td>写一个字节数组的一部分出去。</td>
+</tr>
+</tbody></table>
+<h5 id="流的刷新与关闭"><a href="#流的刷新与关闭" class="headerlink" title="流的刷新与关闭"></a>流的刷新与关闭</h5><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>flush()</code></td>
+<td>刷新流，还可以继续写数据</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>关闭流，释放资源，但是在关闭之前会先刷新流。一旦关闭，就不能再写数据</td>
+</tr>
+</tbody></table>
+<h4 id="资源释放的方式"><a href="#资源释放的方式" class="headerlink" title="资源释放的方式"></a>资源释放的方式</h4><h5 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try-catch-finally"></a>try-catch-finally</h5><ul>
+<li><p>finally：在异常处理时，提供 finally 块来执行所有清除操作，比如 IO 流中的资源释放</p>
+</li>
+<li><p>被 finally 控制的语句最终一定会执行，除非 JVM 退出</p>
+</li>
+<li><p>格式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  <span class="comment">// 正常语句</span></span><br><span class="line">&#125;<span class="keyword">catch</span> (Expection e)&#123;</span><br><span class="line">  e.printStackTrace();</span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">  <span class="comment">// 最终执行的语句</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>可以在 finally 块中最后释放资源</p>
+</li>
+</ul>
+<h5 id="try-with-resource"><a href="#try-with-resource" class="headerlink" title="try-with-resource"></a>try-with-resource</h5><ul>
+<li><p>虽然上面的办法可以用于释放资源，但是释放的代码过于繁琐</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">InputStream is = <span class="keyword">null</span> ;</span><br><span class="line">OutputStream os = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">  e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  <span class="comment">// 关闭资源！</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(os != <span class="keyword">null</span>) os.close();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(is != <span class="keyword">null</span>) is.close();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>改进后的方案</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">定义输入流对象;</span><br><span class="line">定义输出流对象;</span><br><span class="line"><span class="keyword">try</span>(输入流对象；输出流对象)&#123;</span><br><span class="line">  可能出现异常的代码;</span><br><span class="line">&#125;<span class="keyword">catch</span>(异常类名 变量名)&#123;</span><br><span class="line">  异常的处理代码;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure></li>
+<li><p>注意：</p>
+<ul>
+<li>try 后面的小括号只能放资源对象，否则就会报错</li>
+<li>所谓资源对象就是实现了 Closeable/AutoCloseable 接口的对象</li>
+</ul>
+</li>
+</ul>
+<h4 id="字符流的使用"><a href="#字符流的使用" class="headerlink" title="字符流的使用"></a>字符流的使用</h4><h5 id="Reader"><a href="#Reader" class="headerlink" title="Reader"></a>Reader</h5><table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public FileReader(File file)</code></td>
+<td>创建字符输入流管道与源文件对象接通</td>
+</tr>
+<tr>
+<td><code>public FileReader(String  pathname)</code></td>
+<td>创建字符输入流管道与源文件路径接通</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public int read()</code></td>
+<td>每次读取一个字符返回，如果字符已经没有可读的返回-1</td>
+</tr>
+<tr>
+<td><code>public int  read(char[] buffer)</code></td>
+<td>每次读取一个字符数组，返回读取的字符个数，如果字符已经没有可读的返回-1</td>
+</tr>
+</tbody></table>
+<h5 id="FileWriter"><a href="#FileWriter" class="headerlink" title="FileWriter"></a>FileWriter</h5><table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public FileWriter(File file)</code></td>
+<td>创建字符输出流管道与源文件对象接通</td>
+</tr>
+<tr>
+<td><code>public FileWriter(File file，boolean append)</code></td>
+<td>创建字符输出流管道与源文件对象接通，可追加数据</td>
+</tr>
+<tr>
+<td><code>public FileWriter(String filepath)</code></td>
+<td>创建字符输出流管道与源文件路径接通</td>
+</tr>
+<tr>
+<td><code>public FileWriter(String filepath，boolean append)</code></td>
+<td>创建字符输出流管道与源文件路径接通，可追加数据</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void  write(int c)</code></td>
+<td>写一个字符</td>
+</tr>
+<tr>
+<td><code>void  write(char[] cbuf)</code></td>
+<td>写入一个字符数组</td>
+</tr>
+<tr>
+<td><code>void  write(char[] cbuf, int off, int len)</code></td>
+<td>写入字符数组的一部分</td>
+</tr>
+<tr>
+<td><code>void  write(String str)</code></td>
+<td>写一个字符串</td>
+</tr>
+<tr>
+<td><code>void  write(String str, int off, int len)</code></td>
+<td>写一个字符串的一部分</td>
+</tr>
+<tr>
+<td><code>void  write(int c)</code></td>
+<td>写一个字符</td>
+</tr>
+</tbody></table>
+<h5 id="流的刷新与关闭-1"><a href="#流的刷新与关闭-1" class="headerlink" title="流的刷新与关闭"></a>流的刷新与关闭</h5><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>flush()</code></td>
+<td>刷新流，还可以继续写数据</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>关闭流，释放资源，但是在关闭之前会先刷新流。一旦关闭，就不能再写数据</td>
+</tr>
+</tbody></table>
+<h4 id="缓冲流"><a href="#缓冲流" class="headerlink" title="缓冲流"></a>缓冲流</h4><h5 id="认识一下嘛-3"><a href="#认识一下嘛-3" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>缓冲流也称为高级流、高效流</li>
+<li>缓冲流自带缓冲区、可以提高原始流独写数据的性能</li>
+</ul>
+<h5 id="字节缓冲流"><a href="#字节缓冲流" class="headerlink" title="字节缓冲流"></a>字节缓冲流</h5><ul>
+<li><p>BufferedInputStream &amp; BufferedOutputStream 只是提高了性能，功能方法上并无变化</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public BufferedInputStream(InputStream is)</code></td>
+<td>可以把低级的字节输入流包装成一个高级的缓冲字节输入流管道，从而提高字节输入流读数据的性能</td>
+</tr>
+<tr>
+<td><code>public BufferedOutputStream(OutputStream os)</code></td>
+<td>可以把低级的字节输出流包装成一个高级的缓冲字节输出流，从而提高写数据的性能</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="字符缓冲流"><a href="#字符缓冲流" class="headerlink" title="字符缓冲流"></a>字符缓冲流</h5><ul>
+<li><p>BufferedReader 除了提高性能外，还<strong>多了一个按行读取数据</strong>的功能</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  BufferedReader(Reader r)</code></td>
+<td>可以把低级的字符输入流包装成一个高级的缓冲字符输入流管道，从而提高字符输入流读数据的性能</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  String readLine()</code></td>
+<td>读取一行数据返回，如果读取没有完毕，无行可读返回null</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>BufferWriter 除了提高性能外，还<strong>多了一个换行的</strong>功能</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public BufferedWriter(Writer  w)</code></td>
+<td>可以把低级的字符输出流包装成一个高级的缓冲字符输出流管道，从而提高字符输出流写数据的性能</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  void newLine()</code></td>
+<td>换行操作</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h4 id="转换流"><a href="#转换流" class="headerlink" title="转换流"></a>转换流</h4><h5 id="引出"><a href="#引出" class="headerlink" title="引出"></a>引出</h5><ul>
+<li>如果代码编码和文件编码不一致，使用字符流直接读取会出现乱码</li>
+<li>使用转换流封装之后，可以避免这一问题</li>
+</ul>
+<h5 id="字符输入转换流"><a href="#字符输入转换流" class="headerlink" title="字符输入转换流"></a>字符输入转换流</h5><ul>
+<li><p>InputStreamReader，可以把原始的字节流按照指定编码转换成字符输入流</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public InputStreamReader(InputStream is)</code></td>
+<td>可以把原始的字节流按照代码默认编码转换成字符输入流。几乎不用，与默认的FileReader一样。</td>
+</tr>
+<tr>
+<td><code>public InputStreamReader(InputStream is ，String charset)</code></td>
+<td>可以把原始的字节流按照指定编码转换成字符输入流，这样字符流中的字符就不乱码了(重点)</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="字符输出转换流"><a href="#字符输出转换流" class="headerlink" title="字符输出转换流"></a>字符输出转换流</h5><ul>
+<li><p>OutputStreamWriter，可以把字节输出流按照指定编码转换成字符输出流</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public OutputStreamWriter(OutputStream os)</code></td>
+<td>可以把原始的字节输出流按照代码默认编码转换成字符输出流。几乎不用。</td>
+</tr>
+<tr>
+<td><code>public OutputStreamWriter(OutputStream os，String  charset)</code></td>
+<td>可以把原始的字节输出流按照指定编码转换成字符输出流(重点)</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h4 id="序列化对象"><a href="#序列化对象" class="headerlink" title="序列化对象"></a>序列化对象</h4><h5 id="对象序列化"><a href="#对象序列化" class="headerlink" title="对象序列化"></a>对象序列化</h5><ul>
+<li><p>把内存中的对象存储到磁盘文件中去</p>
+</li>
+<li><p>序列化的对象必须实现了<strong>序列化接口</strong></p>
+</li>
+<li><p>对象字节输出流：ObjectOutputStream</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public ObjectOutputStream(OutputStream  out)</code></td>
+<td>把低级字节输出流包装成高级的对象字节输出流</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>序列化方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public final void writeObject(Object obj)</code></td>
+<td>把对象写出去到对象序列化流的文件中去</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="对象反序列化"><a href="#对象反序列化" class="headerlink" title="对象反序列化"></a>对象反序列化</h5><ul>
+<li><p>把磁盘文件中的对象恢复到内存中的对象</p>
+</li>
+<li><p>对象字节输入流：ObjectInputStream</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public ObjectInputStream(InputStream  out)</code></td>
+<td>把低级字节输如流包装成高级的对象字节输入流</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>反序列化方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public  Object readObject()</code></td>
+<td>把存储到磁盘文件中去的对象数据恢复成内存中的对象返回</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h4 id="打印流"><a href="#打印流" class="headerlink" title="打印流"></a>打印流</h4><h5 id="认识一下嘛-4"><a href="#认识一下嘛-4" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>该流可以实现方便、高效的打印数据到文件中去</li>
+<li>一般指 PrintStream，PrintWriter 两个类</li>
+<li>可以实现打印什么数据就是什么数据</li>
+</ul>
+<h5 id="PrintStream"><a href="#PrintStream" class="headerlink" title="PrintStream"></a>PrintStream</h5><table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public PrintStream(OutputStream os)</code></td>
+<td>打印流直接通向字节输出流管道</td>
+</tr>
+<tr>
+<td><code>public PrintStream(File f)</code></td>
+<td>打印流直接通向文件对象</td>
+</tr>
+<tr>
+<td><code>public PrintStream(String filepath)</code></td>
+<td>打印流直接通向文件路径</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public void print(Xxx  xx)</code></td>
+<td>打印任意类型的数据出去</td>
+</tr>
+</tbody></table>
+<h5 id="PrintWriter"><a href="#PrintWriter" class="headerlink" title="PrintWriter"></a>PrintWriter</h5><table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public PrintWriter(OutputStream os)</code></td>
+<td>打印流直接通向字节输出流管道</td>
+</tr>
+<tr>
+<td><code>public PrintWriter (Writer w)</code></td>
+<td>打印流直接通向字符输出流管道</td>
+</tr>
+<tr>
+<td><code>public PrintWriter (File f)</code></td>
+<td>打印流直接通向文件对象</td>
+</tr>
+<tr>
+<td><code>public PrintWriter (String filepath)</code></td>
+<td>打印流直接通向文件路径</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public void print(Xxx  xx)</code></td>
+<td>打印任意类型的数据出去</td>
+</tr>
+</tbody></table>
+<h5 id="输出语句重定向"><a href="#输出语句重定向" class="headerlink" title="输出语句重定向"></a>输出语句重定向</h5><ul>
+<li><p>属于打印流的一种应用，可以打印的位置改到指定位置</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">PrintStream ps = <span class="keyword">new</span> PrintStream(<span class="string">&quot;文件地址&quot;</span>);</span><br><span class="line">System.setOut(ps);</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Develop</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>愿天堂没有Java之异常与日志</title>
+    <url>/2021/12/22/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8B%E5%BC%82%E5%B8%B8%E4%B8%8E%E6%97%A5%E5%BF%97/</url>
+    <content><![CDATA[<p><strong>JavaSE 笔记（六）</strong></p>
+<span id="more"></span>
+
+<blockquote>
+<p>Java 是一门非常严谨的语言</p>
+</blockquote>
+<h4 id="异常概述"><a href="#异常概述" class="headerlink" title="异常概述"></a>异常概述</h4><h5 id="认识一下嘛"><a href="#认识一下嘛" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>异常是程序在“编译”或“执行”过程中可能出现的问题</li>
+<li>比如：数组索引越界，空指针异常，日期格式化异常，等</li>
+<li>异常一旦出现，如果不处理，程序就会退出 JVM 虚拟机而终止</li>
+<li>研究异常并且避免异常，然后提前处理异常，体现的是程序的安全，健壮性</li>
+</ul>
+<h5 id="体系"><a href="#体系" class="headerlink" title="体系"></a>体系</h5><ul>
+<li>Error：系统级别的问题，JVM 退出等，代码无法控制</li>
+<li>Exception：java.lang 包下，称为异常类，它表示程序本身可以处理的问题<ul>
+<li>RuntimeException 及其子类：运行时异常，编译阶段不会报错（空指针异常，数组越界异常）</li>
+<li>除了上面那个异常之外的所有异常：编译时报错，编译期必须处理（日期格式化异常）</li>
+</ul>
+</li>
+</ul>
+<h5 id="两种异常的说明"><a href="#两种异常的说明" class="headerlink" title="两种异常的说明"></a>两种异常的说明</h5><ul>
+<li>编译时异常，是在编译成 class 文件时必须要处理的异常，也称之为受检异常</li>
+<li>运行时异常，在编译成 class 文件时不需要处理，在运行字节码文件时可能出现的异常</li>
+</ul>
+<h4 id="默认处理流程"><a href="#默认处理流程" class="headerlink" title="默认处理流程"></a>默认处理流程</h4><h5 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h5><ol>
+<li>默认会在出现异常的代码那里自动的创建一个异常对象</li>
+<li>异常会从方法中出现的点这里抛出给调用者，调用者最终抛出给 JVM 虚拟机</li>
+<li>虚拟机接到异常对象后，先在控制台直接输出异常栈信息</li>
+<li>直接从当前执行的异常点结束掉当前程序</li>
+<li>后续代码没有机会执行，因为程序已经死亡</li>
+</ol>
+<h5 id="机制"><a href="#机制" class="headerlink" title="机制"></a>机制</h5><ul>
+<li>默认机制并不好，一旦程序出现异常，就立即死亡</li>
+</ul>
+<h4 id="异常处理机制"><a href="#异常处理机制" class="headerlink" title="异常处理机制"></a>异常处理机制</h4><h5 id="编译时异常"><a href="#编译时异常" class="headerlink" title="编译时异常"></a>编译时异常</h5><ul>
+<li><p>方式一：throws</p>
+<ul>
+<li><p>用在方法上，可以将方法内部出现的异常抛出去给本方法的调用者处理</p>
+</li>
+<li><p>这种方式并不好，发生异常的方法自己不去处理异常，如果异常最终抛给虚拟机将引起程序死亡</p>
+<p>格式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">方法 <span class="keyword">throws</span> 异常<span class="number">1</span>，异常<span class="number">2</span>，异常<span class="number">3</span> ...&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 推荐做法</span></span><br><span class="line">方法 <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">  <span class="comment">// 代表可以抛出一切异常</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>方法二：try…catch…</p>
+<ul>
+<li><p>监视捕获异常，用在方法内部，可以将方法内部出现的异常直接捕获</p>
+</li>
+<li><p>这种方式较为常用，发生异常的方法自己独立完成异常的处理，程序可以继续往下执行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  <span class="comment">// 监视可能出现异常的代码</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(异常类型<span class="number">1</span> 变量)&#123;</span><br><span class="line">  <span class="comment">// 处理异常</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(异常类型<span class="number">2</span> 变量)&#123;</span><br><span class="line">  <span class="comment">// 处理异常</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  <span class="comment">// 可能出现异常的代码</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">  e.printStackTrace();	<span class="comment">// 直接打印异常栈信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>方式三：前两者结合</p>
+<ul>
+<li><p>方法直接抛出异常给调用者</p>
+</li>
+<li><p>调用者收到异常后捕获处理</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    parseTime(<span class="string">&quot;2011-11-11 11:11:11&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;功能操作成功~~~&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    System.out.println(<span class="string">&quot;功能操作失败~~~&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parseTime</span><span class="params">(String date)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">  Date d = sdf.parse(date);</span><br><span class="line">  System.out.println(d);</span><br><span class="line">  InputStream is = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;D:/Poria.jpg&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>运行时异常的处理机制，建议使用方式三来处理</p>
+</li>
+</ul>
+<h4 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h4><h5 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h5><ul>
+<li>Java 无法为这个世界上全部的问题提供异常类</li>
+<li>如果想通过异常的方式来管理自己的某个业务，就需要自定义异常类</li>
+</ul>
+<h5 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h5><ul>
+<li>自定义编译时异常<ul>
+<li>定义一个异常类继承 Exception</li>
+<li>重写构造器</li>
+<li>在出现异常的地方用 throw new 自定义对象抛出</li>
+</ul>
+</li>
+<li>自定义运行时异常<ul>
+<li>定义一个异常类继承 RuntimeException</li>
+<li>重写构造器</li>
+<li>在出现异常的地方用 throw new 自定义对象抛出</li>
+</ul>
+</li>
+</ul>
+<h4 id="日志技术概述"><a href="#日志技术概述" class="headerlink" title="日志技术概述"></a>日志技术概述</h4><h5 id="认识一下嘛-1"><a href="#认识一下嘛-1" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>用来记录程序运行过程中的信息，并且进行永久存储</li>
+</ul>
+<h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><ul>
+<li>可以将系统执行的信息选择性的记录到指定的位置（控制台、文件中、数据库）</li>
+<li>可以随时以开关的形式控制是否记录日志，无需修改源代码</li>
+<li>多线程性能较好</li>
+</ul>
+<h4 id="体系-1"><a href="#体系-1" class="headerlink" title="体系"></a>体系</h4><h5 id="日志规范"><a href="#日志规范" class="headerlink" title="日志规范"></a>日志规范</h5><ul>
+<li>一些接口，提供给日志的实现框架设计的标准</li>
+<li>常见规范有<ul>
+<li>Commons Logging 简称：<code>JCL</code></li>
+<li>Simple Logging Facade For Java 简称：<code>slf4j</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="日志框架"><a href="#日志框架" class="headerlink" title="日志框架"></a>日志框架</h5><ul>
+<li>Log4j</li>
+<li>JUL（java.util.logging）</li>
+<li>Logback</li>
+</ul>
+<h4 id="Logback"><a href="#Logback" class="headerlink" title="Logback"></a>Logback</h4><h5 id="认识一下嘛-2"><a href="#认识一下嘛-2" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>官网：<a href="https://logback.qos.ch/index.html">https://logback.qos.ch/index.html</a></li>
+<li>Logback 是由 log4j 创始人设计的另一个开源日志组件，性能较好</li>
+<li>基于 slf4j 实现</li>
+</ul>
+<h5 id="三个模块"><a href="#三个模块" class="headerlink" title="三个模块"></a>三个模块</h5><ul>
+<li>logback-core：为其他两个模块奠定了基础</li>
+<li>logback-classic：是 log4j 的一个改良版本，同时完整实现了 slf4j API</li>
+<li>logback-access：与 Tomcat 和 Jetty 等 Serlvet 容器集成，以提供 HTTP 访问日志功能</li>
+</ul>
+<h5 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h5><ul>
+<li>在项目下新建 lib 文件夹，导入 Logback 的相关 jar 包到该文件夹下，并添加到项目库中</li>
+<li>必须将 Logback 的核心配置文件 logback.xml 直接拷贝到 src 目录下</li>
+<li>在代码中获取日志的对象 ：<code>public static final Logger LOGGER = LoggerFactory.getLogger(&quot;类对象&quot;);</code></li>
+<li>使用日志对象输出日志信息</li>
+</ul>
+<h5 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">  <span class="comment">&lt;!-- CONSOLE：表示当前的日志信息是可以输出到控制台的 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;CONSOLE&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ch.qos.logback.core.ConsoleAppender&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 输出流对象 默认 System.out 改为 System.err --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">target</span>&gt;</span>System.out<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度，%msg：日志消息，%n是换行符 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%-5level]  %c [%thread] : %msg%n<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- File是输出的方向通向文件的 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;FILE&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">charset</span>&gt;</span>utf-8<span class="tag">&lt;/<span class="name">charset</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--日志输出路径--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">file</span>&gt;</span>/var/log/poria<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--指定日志文件拆分和压缩规则--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rollingPolicy</span></span></span><br><span class="line"><span class="tag">                <span class="attr">class</span>=<span class="string">&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--通过指定压缩文件名称，来确定分割文件方式--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">fileNamePattern</span>&gt;</span>C:/code/itheima-data2-%d&#123;yyyy-MM-dd&#125;.log%i.gz<span class="tag">&lt;/<span class="name">fileNamePattern</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--文件拆分大小--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">maxFileSize</span>&gt;</span>1MB<span class="tag">&lt;/<span class="name">maxFileSize</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">rollingPolicy</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF 默认debug</span></span><br><span class="line"><span class="comment">    &lt;root&gt;可以包含零个或多个&lt;appender-ref&gt;元素，标识这个输出位置将会被本日志级别控制</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">&quot;ALL&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 注意：如果这里不配置关联打印位置，该位置将不会记录日志--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">&quot;FILE&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Develop</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>愿天堂没有Java之Stream流</title>
     <url>/2021/12/14/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8BStream%E6%B5%81/</url>
     <content><![CDATA[<p><strong>JavaSE 笔记（五）</strong></p>
