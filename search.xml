@@ -3163,4 +3163,235 @@
         <tag>Java</tag>
       </tags>
   </entry>
+  <entry>
+    <title>愿天堂没有Java之XML</title>
+    <url>/2022/01/26/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java/%E6%84%BF%E5%A4%A9%E5%A0%82%E6%B2%A1%E6%9C%89Java%E4%B9%8BXML/</url>
+    <content><![CDATA[<p><strong>JavaSE 笔记（完）</strong></p>
+<span id="more"></span>
+
+<blockquote>
+<p>Java 是一门非常严谨的语言</p>
+</blockquote>
+<h4 id="解析技术"><a href="#解析技术" class="headerlink" title="解析技术"></a>解析技术</h4><h5 id="认识一下嘛"><a href="#认识一下嘛" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>XML 主要用于存储数据、做配置信息、进行数据传输</li>
+<li>主要有两种解析方式：SAX 解析、DOM 解析</li>
+</ul>
+<h5 id="常见解析工具"><a href="#常见解析工具" class="headerlink" title="常见解析工具"></a>常见解析工具</h5><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>JAXP</code></td>
+<td>SUN公司提供的一套XML的解析的API</td>
+</tr>
+<tr>
+<td><code>JDOM</code></td>
+<td>JDOM是一个开源项目，它基于树型结构，利用纯JAVA的技术对XML文档实现解析、生成、序列化以及多种操作。</td>
+</tr>
+<tr>
+<td><code>dom4j</code></td>
+<td>是JDOM的升级品，用来读写XML文件的。具有性能优异、功能强大和极其易使用的特点，它的性能超过sun公司官方的dom  技术，同时它也是一个开放源代码的软件，Hibernate也用它来读写配置文件。</td>
+</tr>
+<tr>
+<td><code>jsoup</code></td>
+<td>功能强大DOM方式的XML解析开发包，尤其对HTML解析更加方便</td>
+</tr>
+</tbody></table>
+<h5 id="文档对象模型"><a href="#文档对象模型" class="headerlink" title="文档对象模型"></a>文档对象模型</h5><ul>
+<li>Document 对象：整个 XML 文档</li>
+<li>Node 对象：<ul>
+<li>Element 对象：标签</li>
+<li>Attribute 对象：属性</li>
+<li>Text 对象：文本内容</li>
+</ul>
+</li>
+</ul>
+<h5 id="Dom4j-解析框架"><a href="#Dom4j-解析框架" class="headerlink" title="Dom4j 解析框架"></a>Dom4j 解析框架</h5><ul>
+<li><p>SAXReader 类</p>
+<table>
+<thead>
+<tr>
+<th>构造器/方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public SAXReader()</code></td>
+<td>创建Dom4J的解析器对象</td>
+</tr>
+<tr>
+<td><code>Document read(String url)</code></td>
+<td>加载XML文件成为Document对象</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Document 类</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Element getRootElement()</code></td>
+<td>获得根元素对象</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>解析节点</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>List&lt;Element&gt; elements()</code></td>
+<td>得到当前元素下所有子元素</td>
+</tr>
+<tr>
+<td><code>List&lt;Element&gt;  elements(String name)</code></td>
+<td>得到当前元素下指定名字的子元素返回集合</td>
+</tr>
+<tr>
+<td><code>Element  element(String name)</code></td>
+<td>得到当前元素下指定名字的子元素,如果有很多名字相同的返回第一个</td>
+</tr>
+<tr>
+<td><code>String  getName()</code></td>
+<td>得到元素名字</td>
+</tr>
+<tr>
+<td><code>String attributeValue(String name)</code></td>
+<td>通过属性名直接得到属性值</td>
+</tr>
+<tr>
+<td><code>String  elementText(子元素名)</code></td>
+<td>得到指定名称的子元素的文本</td>
+</tr>
+<tr>
+<td><code>String  getText()</code></td>
+<td>得到文本</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  <span class="comment">// 1、导入框架</span></span><br><span class="line">  <span class="comment">// 2、创建SaxReader对象</span></span><br><span class="line">  SAXReader saxReader = <span class="keyword">new</span> SAXReader();</span><br><span class="line">  <span class="comment">// 3、加载XML文件成为文档对象Document对象。</span></span><br><span class="line">  Document document = saxReader.read(Dom4JTest2.class.getResourceAsStream(<span class="string">&quot;/poria.xml&quot;</span>));</span><br><span class="line">  <span class="comment">// 4、先拿根元素</span></span><br><span class="line">  Element root = document.getRootElement();</span><br><span class="line">  <span class="comment">// 5、提取contact子元素</span></span><br><span class="line">  List&lt;Element&gt; contactEles = root.elements(<span class="string">&quot;contact&quot;</span>);</span><br><span class="line">  <span class="comment">// 6、准备一个ArrayList集合封装联系人信息</span></span><br><span class="line">  List&lt;Contact&gt; contacts = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  <span class="comment">// 7、遍历Contact子元素</span></span><br><span class="line">  <span class="keyword">for</span> (Element contactEle : contactEles) &#123;</span><br><span class="line">    <span class="comment">// 8、每个子元素都是一个联系人对象</span></span><br><span class="line">    Contact contact = <span class="keyword">new</span> Contact();</span><br><span class="line">    <span class="comment">// 因为解析出的值都是 String 类型，所以需要类型转换</span></span><br><span class="line">    contact.setId(Integer.valueOf(contactEle.attributeValue(<span class="string">&quot;id&quot;</span>)));</span><br><span class="line">    contact.setVip(Boolean.valueOf(contactEle.attributeValue(<span class="string">&quot;vip&quot;</span>)));</span><br><span class="line">    contact.setName(contactEle.elementTextTrim(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">    contact.setGender(contactEle.elementTextTrim(<span class="string">&quot;gender&quot;</span>).charAt(<span class="number">0</span>));</span><br><span class="line">    contact.setEmail(contactEle.elementText(<span class="string">&quot;email&quot;</span>));</span><br><span class="line">    <span class="comment">// 9、把联系人对象数据加入到List集合</span></span><br><span class="line">    contacts.add(contact);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 10、遍历List集合</span></span><br><span class="line">  <span class="keyword">for</span> (Contact contact : contacts) &#123;</span><br><span class="line">    System.out.println(contact);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="检索技术"><a href="#检索技术" class="headerlink" title="检索技术"></a>检索技术</h4><h5 id="认识一下嘛-1"><a href="#认识一下嘛-1" class="headerlink" title="认识一下嘛"></a>认识一下嘛</h5><ul>
+<li>XPath 在解析 XML 文档方面提供了一独树一帜的路径思想，更加优雅，高效</li>
+<li>XPath 使用路径表达式来定位 XML 文档中的元素节点或属性节点</li>
+</ul>
+<h5 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h5><table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Node selectSingleNode(&quot;表达式&quot;)</code></td>
+<td>获取符合表达式的唯一元素</td>
+</tr>
+<tr>
+<td><code>List&lt;Node&gt; selectNodes(&quot;表达式&quot;)</code></td>
+<td>获取符合表达式的元素集合</td>
+</tr>
+</tbody></table>
+<h5 id="检索：绝对路径"><a href="#检索：绝对路径" class="headerlink" title="检索：绝对路径"></a>检索：绝对路径</h5><ul>
+<li><p>采用绝对路径获取从根节点开始逐层的查找节点列表并打印信息</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/根元素/子元素/孙元素</code></td>
+<td>从根元素开始，一级一级向下查找，不能跨级</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="检索：相对路径"><a href="#检索：相对路径" class="headerlink" title="检索：相对路径"></a>检索：相对路径</h5><ul>
+<li><p>先得到根节点</p>
+</li>
+<li><p>再采用相对路径获取下一级节点的子节点并打印信息</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>./子元素/孙元素</code></td>
+<td>从当前元素开始，一级一级向下查找，不能跨级</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="检索：全文搜索"><a href="#检索：全文搜索" class="headerlink" title="检索：全文搜索"></a>检索：全文搜索</h5><ul>
+<li><p>直接全文搜索所有的元素并打印</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>//元素</code></td>
+<td>找元素，无论元素在哪里</td>
+</tr>
+<tr>
+<td><code>//元素/子元素</code></td>
+<td>找元素，无论在哪一级，但子元素一定是元素的子节点</td>
+</tr>
+<tr>
+<td><code>//元素//子孙元素</code></td>
+<td>元素无论在哪一种，子孙元素只要是元素的子孙元素都可以找到</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="检索：属性查找"><a href="#检索：属性查找" class="headerlink" title="检索：属性查找"></a>检索：属性查找</h5><ul>
+<li><p>在全文中搜索属性，或者带属性的元素</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>//@属性名</code></td>
+<td>查找属性对象，无论是哪个元素，只要有这个属性即可。</td>
+</tr>
+<tr>
+<td><code>//元素[@属性名]</code></td>
+<td>查找元素对象，全文搜索指定元素名和属性名。</td>
+</tr>
+<tr>
+<td><code>//元素//[@属性名=&quot;值&quot;]</code></td>
+<td>查找元素对象，全文搜索指定元素名和属性名，并且属性值相等。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Develop</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
 </search>
