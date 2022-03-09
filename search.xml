@@ -4,7 +4,10 @@
     <title>SQL注入总结</title>
     <url>/2022/03/08/SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p><strong>SQL 注入笔记</strong></p>
-<p><strong>一念 三千烦恼去</strong></p>
+<blockquote>
+<p>年来年去年年忙，为他人作嫁衣裳</p>
+<p>仰天大笑出门去，独对东方舞一场</p>
+</blockquote>
 <span id="more"></span>
 
 <h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><p>注释符</p>
