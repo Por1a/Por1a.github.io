@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 5.4.2">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.jpg">
@@ -387,7 +387,7 @@
 <li>无static修饰，属于外部类的对象</li>
 <li>JDK16之前，成员内部类中不能定义静态成员，JDK 16开始也可以定义静态成员了</li>
 </ul>
-<h5 id="格式-4"><a href="#格式-4" class="headerlink" title="格式"></a>格式</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">  <span class="comment">// 成员内部类</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">外部类名.内部类名 对象名称 = <span class="keyword">new</span> 外部类构造器.new 内部类构造器;</span><br><span class="line">Outer.Inner in = <span class="keyword">new</span> Outer().<span class="function">new <span class="title">Inner</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<h5 id="格式-4"><a href="#格式-4" class="headerlink" title="格式"></a>格式</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">  <span class="comment">// 成员内部类</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">外部类名.内部类名 对象名称 = <span class="keyword">new</span> 外部类构造器.new 内部类构造器;</span><br><span class="line">Outer.Inner in = <span class="keyword">new</span> Outer().n<span class="function">ew <span class="title">Inner</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 
 <h5 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h5><ul>
 <li>譬如人类中的心脏类</li>
